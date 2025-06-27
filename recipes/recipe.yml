@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+# image will be published to ghcr.io/<user>/<name>
+name: qubes-secureblue
+# description will be included in the image's metadata
+description: Secureblue with Qubes presets
+
+# the base image to build on top of (FROM) and the version tag to use
+base-image: ghcr.io/secureblue/kinoite-main-hardened
+image-version: latest # latest is also supported if you want new updates ASAP
+
+# module configuration, executed in order
+# you can include multiple instances of the same module
+modules:
+  - type: files
+    files:
+      - source: system
+        destination:  /
+
+  - type: dnf
+    repos:
+      files:
+        - qubes-r4.repo
+
+  - type: rpm-ostree
+    #remove:
+    #  - firewall-config
+    #  - firewalld
+    install:
+      - qubes-libvchan-xen
+      - qubes-utils-libs-4.3.11-1.1.fc41.x86_64.rpm
+      - qubes-utils-selinux
+      - python3-qubesimgconverter
+      - qubes-utils-4.3.11-1.1.fc41.x86_64.rpm
+      - qubes-kernel-vm-support
+      - qubes-core-qrexec
+      - qubes-db
+      - qubes-core-agent-4.3.26-1.1.fc41.x86_64.rpm
+  - type: justfiles

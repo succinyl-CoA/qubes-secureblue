@@ -1,0 +1,5 @@
+cosign.key
+cosign.private
+/Containerfile
+deploy.iso
+deploy.iso-CHECKSUM
